@@ -1,0 +1,114 @@
+@import 'tailwindcss';
+
+:root {
+  --color-primary: 34 139 87;
+  --color-primary-foreground: 255 255 255;
+  --color-secondary: 46 125 50;
+  --color-accent: 129 199 132;
+  --color-surface: 255 255 255;
+  --color-surface-muted: 245 250 246;
+  --color-text: 23 43 32;
+  --color-text-muted: 74 96 84;
+  --theme-bg-image: none;
+  --theme-bg-overlay: linear-gradient(
+    160deg,
+    rgb(var(--color-surface) / 0.92) 0%,
+    rgb(var(--color-surface-muted) / 0.88) 100%
+  );
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: rgb(var(--color-text));
+  background-color: rgb(var(--color-surface-muted));
+}
+
+.app-shell {
+  background-image: var(--theme-bg-overlay), var(--theme-bg-image);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.glass-card {
+  background: rgb(var(--color-surface) / 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(var(--color-accent) / 0.25);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgb(var(--color-primary) / 0.08);
+}
+
+.btn-primary {
+  background: rgb(var(--color-primary));
+  color: rgb(var(--color-primary-foreground));
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background: rgb(var(--color-surface));
+  color: rgb(var(--color-text));
+  border: 1px solid rgb(var(--color-accent) / 0.5);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+.btn-ghost {
+  color: rgb(var(--color-text-muted));
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.btn-ghost:hover {
+  color: rgb(var(--color-primary));
+  background: rgb(var(--color-primary) / 0.08);
+}
+
+.prose-blog h1,
+.prose-blog h2,
+.prose-blog h3 {
+  color: rgb(var(--color-text));
+  margin-top: 1.25em;
+}
+
+.prose-blog p {
+  line-height: 1.75;
+  color: rgb(var(--color-text-muted));
+}
+
+.prose-blog a {
+  color: rgb(var(--color-primary));
+}
+
+.prose-blog code {
+  background: rgb(var(--color-surface-muted));
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+.prose-blog pre {
+  background: rgb(var(--color-text) / 0.06);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
