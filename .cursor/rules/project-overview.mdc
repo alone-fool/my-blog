@@ -1,0 +1,30 @@
+---
+description: 项目架构与目录职责（my-blog）
+alwaysApply: true
+---
+
+# My Blog 项目概览
+
+Vue 3 + TypeScript + Vite + Supabase + GitHub Pages（`base: /my-blog/`）。
+
+## 目录职责
+
+| 路径 | 用途 |
+|------|------|
+| `src/api/blogApi.ts` | Supabase 真实 API |
+| `src/mocks/blog/` | Mock API、种子数据、`resetBlogMockStore` |
+| `src/api/blogClient.ts` | **唯一对外数据入口**（Mock/真实切换） |
+| `src/stores/` | Pinia：`authStore`、`themeStore` |
+| `src/config/` | 环境变量、主题、Mock 开关 |
+| `src/views/` | 页面；`src/views/admin/` 管理台 |
+| `supabase/migrations/` | 表结构与 RLS（改库必改迁移） |
+
+## 硬约束
+
+- 页面/组件 **只** `import { blogClient } from '@/api/blogClient'`，禁止直接 `getSupabase()` 或内联假数据。
+- 新增业务能力：先扩展 `blogApi` + `blogMockApi`（同签名），再经 `blogClient` 暴露。
+- 改表/RLS 前读取 `supabase/migrations/20260522000000_init.sql`；部署与 OAuth 见 `README.md`。
+
+## 路由
+
+`/resume` · `/blog` · `/blog/:slug` · `/login` · `/admin/*`（owner）

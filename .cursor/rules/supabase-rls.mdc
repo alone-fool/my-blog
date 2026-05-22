@@ -1,0 +1,35 @@
+---
+description: Supabase 迁移、RLS 与 owner 校验
+globs: "supabase/**/*"
+alwaysApply: false
+---
+
+# Supabase 与 RLS
+
+## 迁移
+
+- 所有表结构/策略变更写入 **新迁移文件**，勿只改 Dashboard 不留档。
+- 初始脚本：`supabase/migrations/20260522000000_init.sql`
+
+## Owner
+
+- `public.is_owner()` 比对 JWT `user_metadata.provider_id` / `sub` 与 `site_config.owner_github_id`
+- 部署后执行：`update site_config set value = '你的GitHub数字ID' where key = 'owner_github_id'`
+- 与前端 `VITE_OWNER_GITHUB_ID` / `authStore.isOwner` 保持一致
+
+## RLS 要点
+
+| 表 | 读 | 写 |
+|----|----|----|
+| `profiles` | 公开 | 仅 owner |
+| `posts` | 已发布公开；owner 见草稿 | 仅 owner |
+| `comments` / `post_likes` / `post_favorites` | 公开 | 登录用户写自己的行 |
+
+## 禁止
+
+- 在前端使用 `service_role` key
+- 为绕过 RLS 在前端写「管理员专用」硬编码 secret
+
+## 视图
+
+`post_stats` 供文章点赞/评论/收藏计数聚合。

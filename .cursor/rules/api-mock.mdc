@@ -1,0 +1,38 @@
+---
+description: blogClient 与 Mock 层约定
+globs: "src/api/**/*,src/mocks/**/*"
+alwaysApply: false
+---
+
+# API 与 Mock
+
+## 切换（单处）
+
+```ts
+// src/api/blogClient.ts
+export const blogClient = checkBlogMockSupport() ? blogMockApi : blogApi
+```
+
+`checkBlogMockSupport()`：`import.meta.env.DEV && VITE_USE_MOCK_BLOG === 'true'`（见 `src/config/mock.ts`）。
+
+## 新增接口流程
+
+1. 在 `blogApi` 实现 Supabase 调用
+2. 在 `blogMockApi` 实现 **相同方法签名** 与分页结构 `{ list, total, page, pageSize }`
+3. 种子/内存：`src/mocks/blog/data.ts`、`store.ts`；可导出 `resetBlogMockStore()`
+
+## 禁止
+
+```ts
+// BAD：业务页内 Mock 分支
+if (import.meta.env.DEV) { posts.value = [{ title: '假' }] }
+```
+
+```ts
+// BAD：页面直接 import blogApi / blogMockApi
+import { blogApi } from '@/api/blogApi'
+```
+
+## 生产
+
+构建默认不走 Mock；勿在生产环境设 `VITE_USE_MOCK_BLOG=true`。

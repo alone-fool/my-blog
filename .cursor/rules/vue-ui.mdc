@@ -1,0 +1,32 @@
+---
+description: Vue 模板与主题样式规范
+globs: "**/*.{vue,css}"
+alwaysApply: false
+---
+
+# Vue UI 与主题
+
+## 禁止
+
+```vue
+<!-- BAD：行内 style -->
+<div style="color: red; margin: 8px">
+```
+
+零散颜色/间距/字号不得写在模板 `style` 上。
+
+## 推荐
+
+- 布局与通用样式：**Tailwind** class
+- 主题色：**CSS 变量** `rgb(var(--color-primary))` 等（见 `src/style.css`）
+- 组件私有样式：`<style scoped>` + 语义化 class（BEM 可选）
+
+## 主题
+
+- 预置五主题：`src/config/themes.ts` + `public/themes/*.svg`
+- 切换逻辑：`themeStore` 写 `--color-*` 与 `--theme-bg-image`
+- 自定义背景：`ThemePicker` + `src/utils/colorExtract.ts`，禁止在模板绑动态 `style` 对象
+
+## Markdown 编辑
+
+管理后台文章正文使用 `md-editor-v3`（见 `AdminPostEditView.vue`），勿另引入第二套编辑器。
