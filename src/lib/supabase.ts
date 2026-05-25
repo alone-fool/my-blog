@@ -8,7 +8,13 @@ export function getSupabase(): SupabaseClient | null {
     return null
   }
   if (!client) {
-    client = createClient(getSupabaseUrl(), getSupabaseAnonKey())
+    client = createClient(getSupabaseUrl(), getSupabaseAnonKey(), {
+      auth: {
+        detectSessionInUrl: true,
+        persistSession: true,
+        flowType: 'pkce',
+      },
+    })
   }
   return client
 }

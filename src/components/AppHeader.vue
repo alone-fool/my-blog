@@ -26,7 +26,9 @@ const auth = useAuthStore()
         >
           退出
         </button>
-        <RouterLink v-else to="/login" class="btn-primary text-sm">登录</RouterLink>
+        <button v-else type="button" class="btn-primary text-sm" @click="auth.signInWithGitHub()">
+          登录
+        </button>
       </nav>
     </div>
   </header>

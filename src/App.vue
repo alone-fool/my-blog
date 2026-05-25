@@ -20,8 +20,5 @@ onMounted(() => {
     <main>
       <RouterView />
     </main>
-    <footer class="py-8 text-center text-xs text-[rgb(var(--color-text-muted))]">
-      © {{ new Date().getFullYear() }} My Blog
-    </footer>
   </div>
 </template>

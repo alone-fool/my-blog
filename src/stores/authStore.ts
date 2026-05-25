@@ -54,6 +54,16 @@ export const useAuthStore = defineStore('auth', () => {
       loading.value = false
       return
     }
+    const search = window.location.search
+    if (search.includes('code=')) {
+      const code = new URLSearchParams(search).get('code')
+      if (code) {
+        await supabase.auth.exchangeCodeForSession(code)
+        const cleanPath = `${window.location.pathname}${window.location.hash}`
+        window.history.replaceState({}, '', cleanPath)
+      }
+    }
+
     const { data } = await supabase.auth.getSession()
     user.value = data.session?.user ? mapSupabaseUser(data.session.user) : null
     supabase.auth.onAuthStateChange((_event, session) => {

@@ -1,3 +1,4 @@
+import { getOAuthRedirectUrl } from '@/config/auth'
 import { getSupabase } from '@/lib/supabase'
 import type {
   AuthUser,
@@ -155,11 +156,15 @@ export const blogApi = {
   async signInWithGitHub(): Promise<void> {
     const supabase = getSupabase()
     if (!supabase) return
-    const redirectTo = `${window.location.origin}${import.meta.env.BASE_URL}`
-    await supabase.auth.signInWithOAuth({
+    const redirectTo = getOAuthRedirectUrl()
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: { redirectTo },
     })
+    if (error) return
+    if (data.url) {
+      window.location.assign(data.url)
+    }
   },
 
   async signOut(): Promise<void> {
